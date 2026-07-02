@@ -1,4 +1,4 @@
-name: Release (macOS / Linux experimental)
+name: Release (Windows / macOS / Linux)
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - "v*"
 
 permissions:
-  contents: write # 允许创建 Release 并上传产物
+  contents: write
 
 jobs:
   release:
@@ -14,6 +14,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - platform: windows-latest
+            args: ""
+            rust_targets: ""
           - platform: macos-latest
             args: "--target universal-apple-darwin"
             rust_targets: "aarch64-apple-darwin,x86_64-apple-darwin"
@@ -69,11 +72,11 @@ jobs:
           tagName: ${{ github.ref_name }}
           releaseName: "MD Reader ${{ github.ref_name }}"
           releaseBody: |
-            Windows: 见下方 .msi（安装版）/ .exe（绿色版）。
+            Windows: .msi（安装版）/ .exe（绿色版）。
 
             macOS / Linux 为**实验版**，由 CI 自动构建、未做代码签名：
             - macOS: 首次打开右键 → 打开，或 `xattr -dr com.apple.quarantine "MD Reader.app"`
             - Linux: AppImage 需先 `chmod +x`
-          releaseDraft: true # 草稿：补充 Windows 包后再手动发布
+          releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
