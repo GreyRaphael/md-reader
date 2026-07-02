@@ -275,11 +275,7 @@ export async function renderMermaid(
     const id = `mermaid-${Date.now()}-${mermaidIdCounter++}`;
     try {
       const { svg } = await mermaid.render(id, code);
-      el.innerHTML = DOMPurify.sanitize(svg, {
-        USE_PROFILES: { svg: true, svgFilters: true, html: true },
-        ADD_TAGS: ["foreignObject", "style"],
-        ADD_ATTR: ["xlink:href"],
-      });
+      el.innerHTML = svg;
       el.classList.add("mermaid-rendered");
     } catch (e: any) {
       const pre = document.createElement("pre");
