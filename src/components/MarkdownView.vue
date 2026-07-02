@@ -25,13 +25,17 @@ async function update() {
   html.value = renderMarkdown(props.source);
   await nextTick();
   if (root.value) {
-    rewriteImagesAndLinks(
-      root.value,
-      { currentFile: props.currentFile, rootDir: props.rootDir },
-      (path, hash) => emit("internal-link", path, hash)
-    );
-    await renderMath(root.value);
-    await renderMermaid(root.value);
+    try {
+      rewriteImagesAndLinks(
+        root.value,
+        { currentFile: props.currentFile, rootDir: props.rootDir },
+        (path, hash) => emit("internal-link", path, hash)
+      );
+      await renderMath(root.value);
+      await renderMermaid(root.value);
+    } catch (e) {
+      console.error("[MarkdownView] post-render error:", e);
+    }
     emit("rendered", root.value);
   }
 }

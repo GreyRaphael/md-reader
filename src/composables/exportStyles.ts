@@ -41,7 +41,8 @@ hr { border: 0; border-top: 1px solid #d0d7de; margin: 2em 0; }
 .footnotes { margin-top: 2em; padding-top: 1em; border-top: 1px solid #d0d7de;
   font-size: 0.9em; color: #57606a; }
 .mermaid-block { margin: 1em 0; text-align: center; background: #f6f8fa;
-  padding: 14px; border-radius: 6px; overflow-x: auto; }
+  padding: 14px; border-radius: 6px; overflow-x: auto;
+  line-height: normal; font-family: inherit; }
 .mermaid-block svg { max-width: 100%; height: auto; }
 .math-block { margin: 1em 0; text-align: center; overflow-x: auto; }
 .header-anchor { display: none !important; }

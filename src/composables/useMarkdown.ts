@@ -18,7 +18,7 @@ const md: MarkdownIt = new MarkdownIt({
   breaks: false,
   highlight(str: string, lang: string): string {
     if (lang === "mermaid") {
-      return `<div class="mermaid-block">${md.utils.escapeHtml(str)}</div>`;
+      return `<pre class="mermaid-block">${md.utils.escapeHtml(str)}</pre>`;
     }
     if (lang && hljs.getLanguage(lang)) {
       try {
@@ -223,7 +223,7 @@ function configureMermaid(mermaid: any): void {
   mermaid.initialize({
     startOnLoad: false,
     theme: isDark ? "dark" : "default",
-    securityLevel: "strict",
+    securityLevel: "antiscript",
   });
 }
 
@@ -276,7 +276,9 @@ export async function renderMermaid(
     try {
       const { svg } = await mermaid.render(id, code);
       el.innerHTML = DOMPurify.sanitize(svg, {
-        USE_PROFILES: { svg: true, svgFilters: true },
+        USE_PROFILES: { svg: true, svgFilters: true, html: true },
+        ADD_TAGS: ["foreignObject", "style"],
+        ADD_ATTR: ["xlink:href"],
       });
       el.classList.add("mermaid-rendered");
     } catch (e: any) {
